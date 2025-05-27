@@ -47,15 +47,19 @@ export default function Home() {
     //   await pcRef.current.setLocalDescription(offer);
     //   socketRef.current.send(JSON.stringify({ sdp: pcRef.current.localDescription }));
     // };
-
     return () => {
       pcRef.current.close();
       socketRef.current.close();
     };
   }, [])
+  const startCall = async () => {
+    const offer = await pcRef.current.createOffer();
+    await pcRef.current.setLocalDescription(offer);
+    socketRef.current.send(JSON.stringify({ sdp: pcRef.current.localDescription }));
+  }
   return (
     <div>
-
+      <button onClick={startCall}>Start Call</button>
     </div>
   );
 }

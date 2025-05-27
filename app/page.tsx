@@ -10,7 +10,11 @@ export default function Home() {
   useEffect(() => {
     socketRef.current = new WebSocket("wss://blockheadsports.com/signaling?matchId=0000");
     pcRef.current = new RTCPeerConnection({
-      iceServers: [{ urls: "turn:18.216.115.52:3478", }],
+      iceServers: [{
+        urls: "turn:18.216.115.52:3478",
+        username: crypto.randomUUID(),        // dummy username
+        credential: "test"
+      }],
       iceTransportPolicy: "relay" // force TURN relay
     });
     pcRef.current.onicecandidate = ({ candidate }: any) => {

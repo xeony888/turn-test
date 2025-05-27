@@ -8,7 +8,7 @@ export default function Home() {
   const socketRef = useRef<WebSocket>(null);
   const pcRef = useRef<RTCPeerConnection>(null);
   useEffect(() => {
-    socketRef.current = new WebSocket("wss://blockheadsports.com/signaling?matchId=0000");
+    socketRef.current = new WebSocket("wss://server.blockheadsports.com/signaling?matchId=0000");
     pcRef.current = new RTCPeerConnection({
       iceServers: [{
         urls: "turn:18.216.115.52:3478",

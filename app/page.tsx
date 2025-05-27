@@ -8,7 +8,7 @@ export default function Home() {
   const socketRef = useRef<any>(undefined);
   const pcRef = useRef<any>(undefined);
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://localhost:3001/signaling?matchId=0000");
+    socketRef.current = new WebSocket("wss://blockheadsports.com/signaling?matchId=0000");
     pcRef.current = new RTCPeerConnection({
       iceServers: [{ urls: "turn:18.216.115.52:3478", }],
       iceTransportPolicy: "relay" // force TURN relay
@@ -42,11 +42,11 @@ export default function Home() {
     };
 
     // 4. Kick off the call (only one peer should do this)
-    socketRef.current.onopen = async () => {
-      const offer = await pcRef.current.createOffer();
-      await pcRef.current.setLocalDescription(offer);
-      socketRef.current.send(JSON.stringify({ sdp: pcRef.current.localDescription }));
-    };
+    // socketRef.current.onopen = async () => {
+    //   const offer = await pcRef.current.createOffer();
+    //   await pcRef.current.setLocalDescription(offer);
+    //   socketRef.current.send(JSON.stringify({ sdp: pcRef.current.localDescription }));
+    // };
 
     return () => {
       pcRef.current.close();

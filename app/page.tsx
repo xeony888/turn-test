@@ -21,7 +21,15 @@ export default function Home() {
       if (candidate) socketRef.current!.send(JSON.stringify({ candidate }));
     };
     socketRef.current.onmessage = async ({ data }: any) => {
-      const msg = JSON.parse(data);
+      const raw = data;
+      // 2) convert to a string
+      let str: string;
+      if (raw instanceof Blob) {
+        str = await raw.text();                // read Blob as text
+      } else {
+        str = raw as string;                   // already a string
+      }
+      const msg = JSON.parse(str);
       if (msg.sdp) {
         await pcRef.current!.setRemoteDescription(msg.sdp);
         if (msg.sdp.type === "offer") {
